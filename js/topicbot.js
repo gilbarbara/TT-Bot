@@ -51,7 +51,7 @@ if (typeof(topicbot) == "undefined") {
 	};
 }
 
-topicbot.version = "1.7.2 (new list rules)";
+topicbot.version = "1.7.3 (github commit)";
 
 topicbot.start = function() {
 	console.log("topicbot version " + this.version + " starting..");

@@ -1,6 +1,6 @@
 {
 	"name": "Turntable.fm Bot Manager",
-	"version": "1.7.2",
+	"version": "1.7.3",
 	"description": "A bot to keep the mood and manage the dj queue.",
 	"background_page": "background.html",
 	"content_scripts": [
