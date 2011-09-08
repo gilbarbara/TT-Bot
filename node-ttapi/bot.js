@@ -93,7 +93,7 @@ if (typeof(topicbot) == "undefined") {
 		if (votes >= required) {
 			topicbot.downVote();
 			api.speak("Hey " + topicbot.currentDjName() + ", you're off theme!! Maybe is time for another room?");
-			api.room_rem_dj(topicbot.room.current_dj);
+			api.remDj(topicbot.room.current_dj);
 		}
 		else if (votes == 1) {
 			api.speak(name + " says this is off theme. Do you agree? Say *offtheme if so!");
@@ -158,7 +158,7 @@ if (typeof(topicbot) == "undefined") {
 				api.speak(name + " has been playing for too long. Learn to share!");
 				setTimeout(function() {
 					console.log(dateNow() + " ### boot for playing for too long")
-					api.room_rem_dj(userid);
+					api.remDj(userid);
 					topicbot.clearWarning(userid);
 				}, 2 * 1000);
 			}
@@ -366,7 +366,7 @@ if (typeof(topicbot) == "undefined") {
 		for (var i=0;i<topicbot.room.djcount;i++) {
 			if (topicbot.timestamp() - topicbot.djsPlaying[topicbot.room.djs[i]] > 900 && topicbot.room.djs[i] != topicbot.room.current_dj && topicbot.issuedWarning(topicbot.room.djs[i],"afk")) {
 				console.log(dateNow() + " ### " + topicbot.roomUsers[topicbot.room.djs[i]].name + " removed from decks");
-				api.room_rem_dj(topicbot.room.djs[i]);
+				api.remDj(topicbot.room.djs[i]);
 				delete topicbot.djsPlaying[topicbot.room.djs[i]];
 			} else if (topicbot.timestamp() - topicbot.djsPlaying[topicbot.room.djs[i]] > 720 && !topicbot.issuedWarning(topicbot.room.djs[i],'afk')) {
 				console.log(dateNow() + " ### " + topicbot.roomUsers[topicbot.room.djs[i]].name + " warned");
@@ -438,10 +438,10 @@ if (typeof(topicbot) == "undefined") {
 	
 	topicbot.autoplay = function() {
 		if (!topicbot.autoplayStatus) {
-			api.room_rem_dj();
+			api.remDj();
 		}
 		else if (topicbot.autoplayStatus && topicbot.room.djs.indexOf(USERID) > -1 && topicbot.room.djs.length > 2) {
-			api.room_rem_dj();
+			api.remDj();
 		}
 		else if (topicbot.autoplayStatus && topicbot.room.djs.indexOf(USERID) == -1 && topicbot.room.djs.length < 2) {
 			api.addDj();
@@ -591,7 +591,7 @@ if (api) {
 			}
 			else {
 				api.speak("sorry " + user.name + " but only resident DJs can play.");
-				api.room_rem_dj(user.userid);
+				api.remDj(user.userid);
 				topicbot.djsRemoved = true;
 			}
 			return false;
@@ -624,7 +624,7 @@ if (api) {
 					}
 					else {
 						api.speak(user.name + " this is not your turn. DON'T TRY AGAIN!");
-						api.room_rem_dj(user.userid);
+						api.remDj(user.userid);
 					}
 				}
 			}
@@ -667,7 +667,7 @@ if (api) {
 				this_id = topicbot.room.djs[i];
 				setTimeout(function() {
 					console.log(dateNow() + " ### escorted " + topicbot.roomUsers[this_id].name);
-					api.room_rem_dj(this_id);
+					api.remDj(this_id);
 				}, 10 * 1000);
 			}
 		}
@@ -843,7 +843,7 @@ if (api) {
 					api.addDj();
 				}
 				else if (command == "getdown") {
-					api.room_rem_dj();
+					api.remDj();
 				}
 				else if (command == "skip") {
 					api.stopSong();
@@ -872,7 +872,7 @@ if (api) {
 				if (command == "demote") {
 					if (args) {
 						var user = topicbot.getUserByName(args);
-						if (user.userid) api.room_rem_dj(user.userid);
+						if (user.userid) api.remDj(user.userid);
 						else api.speak(args + " isn't here.");
 					}
 				}
