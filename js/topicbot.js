@@ -51,7 +51,7 @@ if (typeof(topicbot) == "undefined") {
 	};
 }
 
-topicbot.version = "1.7.3 (github commit)";
+topicbot.version = "1.7.5 (new callback)";
 
 topicbot.start = function() {
 	console.log("topicbot version " + this.version + " starting..");
@@ -100,7 +100,7 @@ topicbot.start = function() {
 				self.init();
 			}, 3 * 1000);
 		}
-	},500);
+	}, 500);
 };
 
 topicbot.init = function() {
@@ -367,7 +367,7 @@ topicbot.hiDj = function(user) {
 			console.log(user.name + " removed from dj list");
 			
 			if (!this.songsPlayed[user.userid] || this.songsPlayed[user.userid] >= this.maxSongs) this.songsPlayed[user.userid] = 0;
-			this.say("Good Luck " + user.name + ". You can play " + this.maxSongs + " songs. The next on the list is: " + this.djsQueue[1]);
+			this.say("Good Luck " + user.name + ". You can play " + this.maxSongs + " songs if you're lucky. The next on the list is: " + this.djsQueue[1]);
 			this.djsQueue = $.map(this.djsQueue, function(n, i){
 				return (n == user.name ? null : n);
 			});
@@ -563,7 +563,7 @@ topicbot.onChat = function(name,text) {
 	
 	var matches = text.match(/^(?:[!#*])(\w+)\s*(.*)/i);
 	if (matches) {
-		var command = matches[1];
+		var command = matches[1].toLowerCase();
 		var args = matches[2];
 		console.log(command);
 		
@@ -754,7 +754,7 @@ topicbot.onChat = function(name,text) {
 		else if ((command == "offtopic" || command == "offtheme") && this.botFunctions) {
 			this.incrementOffTheme(name);
 		}
-		else if (command == "bonus" || command == "awesome" || command == "boner") {
+		else if (command == "bonus" || command == "awesome" || command == "boner" || command == "benga") {
 			if (!this.voted) this.incrementBonus(name);
 			else this.say("I'm already dancing! :)");
 		}
@@ -782,7 +782,7 @@ topicbot.onChat = function(name,text) {
 						else if (this.residentsParty) {
 							if (name == this.owner || this.residents[user.userid]) {
 								this.djsQueue.push(name);
-								this.say(name + " added. The list now has " + this.djsQueue.length + " DJs. -- " + this.maxSongs + " songs per round. ");
+								this.say(name + " added. The list now has " + this.djsQueue.length + " DJs. -- " + this.maxSongs + " songs per round.");
 								//: "+this.djsQueue.join(", ") + "
 								this.storage.backup();
 							}
@@ -793,7 +793,7 @@ topicbot.onChat = function(name,text) {
 						else if (this.listClosed) {
 							if (name == this.owner || this.residents[user.userid]) {
 								this.djsQueue.push(name);
-								this.say(name + " added. The list now has " + this.djsQueue.length + " DJs. -- " + this.maxSongs + " songs per round. ");
+								this.say(name + " added. The list now has " + this.djsQueue.length + " DJs. -- " + this.maxSongs + " songs per round.");
 								// "+this.djsQueue.join(", ") + "
 								this.storage.backup();
 							}
@@ -804,7 +804,7 @@ topicbot.onChat = function(name,text) {
 						else if (this.djsQueue.length >= this.maxList) {
 							if (name == this.owner || this.residents[user.userid]) {
 								this.djsQueue.push(name);
-								this.say(name + " added. The list now has " + this.djsQueue.length + " DJs. -- " + this.maxSongs + " songs per round. ");
+								this.say(name + " added. The list now has " + this.djsQueue.length + " DJs. -- " + this.maxSongs + " songs per round.");
 								this.storage.backup();
 							}
 							else {
@@ -814,7 +814,7 @@ topicbot.onChat = function(name,text) {
 						}
 						else {
 							this.djsQueue.push(name);
-							this.say(name + " added. The list now has " + this.djsQueue.length + " DJs. -- " + this.maxSongs + " songs per round. ");
+							this.say(name + " added. The list now has " + this.djsQueue.length + " DJs. -- " + this.maxSongs + " songs per round if you're lucky.");
 							this.storage.backup();
 						}
 					}
@@ -894,8 +894,11 @@ topicbot.onChat = function(name,text) {
 		else if (command == "faq") {
 			this.say("Please go here: http://tt-indie-dance-electronica.tumblr.com/");
 		}
-		else if (command == "donate" || command == "donation") {
-			this.say("Ca$h! Please go here: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TECU92G558HGN");
+		else if (command == "page") {
+			this.say("Please go here: http://www.facebook.com/IndieDanceElectronica");
+		}
+		else if (command == "cash" || command == "money" || command == "donate" || command == "donation") {
+			this.say("Ca$h Please! go here: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TECU92G558HGN");
 		}
 
 		if (this.sillyCommands) {
@@ -990,6 +993,9 @@ topicbot.onChat = function(name,text) {
 			}
 			else if (command == "electronica") {
 				this.say("Go here: http://www.last.fm/tag/electronica/artists");
+			}
+			else if (command == "beer" || command == "beerme") {
+				this.say("Here's a cold one! Cheers!");
 			}
 		}
 	}
